@@ -16,16 +16,16 @@ def addPrograms():
     programType = _json["programType"]
     programId = int(_json["programId"])
     ImageSrc = _json["imageSrc"]
-    trailerLink = _json("trailerLink")
-    videoLink = _json("videoLink")
-    uaRating = _json("uaRating")
-    description =_json("description")
-    castInfo = _json("castInfo")
-    creatorInfo = _json("creatorInfo")
-    yearOfMaking = _json("yearOfMaking")
-    genre = _json("genre")
-    seasonsNo = _json("seasonNo")
-    return jsonify("Added Successfully")
+    trailerLink = _json["trailerLink"]
+    videoLink = _json["videoLink"]
+    uaRating = _json["uaRating"]
+    description =_json["description"]
+    castInfo = _json["castInfo"]
+    creatorInfo = _json["creatorInfo"]
+    yearOfMaking = _json["yearOfMaking"]
+    genre = _json["genre"]
+    seasonsNo = _json["seasonNo"]
+    return jsonify["Added Successfully"]
     print("name,programType")
     dataInsert = mongo.db.netflixlist.insert_one({
         "name" :name,
@@ -54,9 +54,10 @@ def addPrograms():
     def getMovieId(id):
         allDetail=mongo.db.netflixlist.find_one({"programId":id})
         resp=dumps(allDetail)
-        return resp
-            
-            
+        return resp          
 
 if __name__ == "__main__":
         app.run(port = 3000)
+        
+        
+#this is the test comment for Git hub and wont be present in the main branch
