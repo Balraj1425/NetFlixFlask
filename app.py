@@ -1,5 +1,11 @@
 from flask import Flask, request, jsonify
+from flask_pymongo import PyMongo
+
 app = Flask(__name__)
+app.secret_key = "secret"
+app.config["MONGO_URI"] = "mongodb+srv://balraj:yXcJhuzMOTrYB9rp@cluster0.ewdz4tn.mongodb.net/NetflixFlask?retryWrites=true&w=majority"
+mongo = PyMongo(app)
+
 @app.route("/hello")
 def hello():
     return "hello World"
@@ -20,6 +26,22 @@ def addProgram():
     yearOfMaking = _json["yearOfMaking"]
     genre = _json["genre"]
     noOfSeasons = _json["noOfSeasons"]
+
+    dataInsert = mongo.db.netflixlist.insert_one({
+        "name": name, 
+        "programType":programType,
+        "programId":programId,
+        "imageSrc":imageSrc,
+        "trailerLink":trailerLink,
+        "videoLink":videoLink,
+        "uaRating":uaRating,
+        "description":description,
+        "castInfo":castInfo,
+        "creatorInfo":creatorInfo,
+        "yearOfMaking":yearOfMaking, 
+        "genre":genre,
+        "noOfSeasons":noOfSeasons
+    })
 
     print(name, programType, imageSrc,castInfo)
     return jsonify("added succesfully")
