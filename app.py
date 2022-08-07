@@ -1,3 +1,4 @@
+from bson.json_util import dumps
 from flask import Flask, request, jsonify
 from flask_pymongo import PyMongo
 
@@ -8,14 +9,14 @@ mongo = PyMongo(app)
 
 @app.route("/hello")
 def hello():
-    return "hello World"
+    return jsonify("hello World")
 
 @app.route("/addProgram", methods=["POST"])
 def addProgram():
     _json = request.json
     name = _json["name"]
     programType = _json["programType"]
-    programId = _json["programId"]
+    programId =int(_json["programId"]) 
     imageSrc = _json["imageSrc"]
     trailerLink = _json["trailerLink"]
     videoLink = _json["videoLink"]
@@ -46,5 +47,17 @@ def addProgram():
     print(name, programType, imageSrc,castInfo)
     return jsonify("added succesfully")
 
+@app.route("/getMovielist",methods=["GET"])
+def allDetails():
+    allDetail=mongo.db.netflixlist.find()
+    resp=dumps(allDetail)
+    return resp
+
+@app.route("/getMovieId/<int:id>",methods=["GET"])
+def getMovieId(id):
+    allDetail=mongo.db.netflixlist.find_one({"programId":id})
+    resp=dumps(allDetail)
+    return resp
+
 if __name__ == "__main__":
-    app.run(port = 3000)
+    app.run(port = 3000,debug=True)
