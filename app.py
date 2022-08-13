@@ -24,7 +24,7 @@ def addPrograms():
     creatorInfo = _json["creatorInfo"]
     yearOfMaking = _json["yearOfMaking"]
     genre = _json["genre"]
-    seasonsNo = _json["seasonNo"]
+    #noOfSeasons = _json["noOfSeasons"]
     return jsonify["Added Successfully"]
     print("name,programType")
     dataInsert = mongo.db.netflixlist.insert_one({
@@ -40,7 +40,7 @@ def addPrograms():
         "creatorInfo" :creatorInfo,
         "yearOfMaking" : yearOfMaking, 
         "genre" : genre
-        "seasonsNo":seasonsNo,  
+        #"noOfSeasons" : noOfSeasons,  
     })
     
     
@@ -54,10 +54,19 @@ def addPrograms():
     def getMovieId(id):
         allDetail=mongo.db.netflixlist.find_one({"programId":id})
         resp=dumps(allDetail)
-        return resp          
+        return resp       
+    @app.route("/deleteData/<int:id>" , methods=["Delete"])  
+    def deleteOne(id):
+        mongo.db.netflixlist.delete_one({"programid":id})
+        #delOne=mongo.db.netflixlist.delete_one({"programid":id})#use delete_many for multiple ids
+        #resp=dumps(delOne) 
+        #print(resp)
+        #return resp
+        return "Item Deleted"
+         
 
 if __name__ == "__main__":
-        app.run(port = 3000)
+        app.run(port = 5000)
         
         
 #this is the test comment for Git hub and wont be present in the main branch
