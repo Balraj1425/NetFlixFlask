@@ -44,26 +44,41 @@ def addPrograms():
     })
     
     
-    @app.route("/getMovieDetails" , methods=["GET"])
-    def getDetails():
-        allDetail=mongo.db.netflixlist.find()
-        resp=dumps(allDetail)
-        return resp
+@app.route("/getMovieDetails" , methods=["GET"])
+def getDetails():
+    allDetail=mongo.db.netflixlist.find()
+    resp=dumps(allDetail)
+    return resp
     
-    @app.route("/getMovieId/<int:id>" , methods=["GET"])
-    def getMovieId(id):
-        allDetail=mongo.db.netflixlist.find_one({"programId":id})
-        resp=dumps(allDetail)
-        return resp       
-    @app.route("/deleteData/<int:id>" , methods=["Delete"])  
-    def deleteOne(id):
-        mongo.db.netflixlist.delete_one({"programid":id})
+@app.route("/getMovieId/<int:id>" , methods=["GET"])
+def getMovieId(id):
+    allDetail=mongo.db.netflixlist.find_one({"programId":id})
+    resp=dumps(allDetail)
+    return resp       
+@app.route("/deleteData/<int:id>" , methods=["DELETE"])  
+def deleteOne(id):
+    mongo.db.netflixlist.delete_one({"programid":id})
         #delOne=mongo.db.netflixlist.delete_one({"programid":id})#use delete_many for multiple ids
         #resp=dumps(delOne) 
         #print(resp)
         #return resp
-        return "Item Deleted"
-         
+    return "Item Deleted"
+
+@app.route("/updateData/<int:id>" , methods=["PUT"])
+def updatevalue(id):
+    _json = request.json
+    data = mongo.db.netflixlist.update_one({'program':id},{'$set': _json})
+
+    print(_json)
+    return "Data updated"
+
+@app.route("/updateMovie/<id>" , methods=["PUT"])
+def updateallvalue(id):
+    _json = request.json
+    updateOne = mongo.db.netflixlist.update_many({'castInfo':id},{'$set': _json})
+
+    print(_json)
+    return "Data updated"
 
 if __name__ == "__main__":
         app.run(port = 5000)
