@@ -59,8 +59,14 @@ def getMovieId(id):
     resp=dumps(allDetail)
     return resp
 
-# @app.route("/updateList", methods=["PUT"])
-# def updateList():
+@app.route("/updateList/<int:id>", methods=["PUT"])
+def updateList(id):
+    _json = request.json
+    print(request.json)
+    updateData =mongo.db.netflixlist.update_one({"programId":id},{"$set":_json})
+    return "data updated"
+
+
 
 @app.route("/delete/<int:id>", methods = ["DELETE"])
 def deleteOne(id):
