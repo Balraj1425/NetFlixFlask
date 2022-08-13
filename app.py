@@ -59,5 +59,14 @@ def getMovieId(id):
     resp=dumps(allDetail)
     return resp
 
+# @app.route("/updateList", methods=["PUT"])
+# def updateList():
+
+@app.route("/delete/<int:id>", methods = ["DELETE"])
+def deleteOne(id):
+    mongo.db.netflixlist.delete_one({"programId":id})
+    return "deleted successfully"
+
+
 if __name__ == "__main__":
     app.run(port = 3000,debug=True)
